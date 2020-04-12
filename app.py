@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
 from security import authenticate, identity
-from db import db
+
 
 from resources.userResource import UserResource
 from resources.itemResource import ItemResource, ItemResourceList
@@ -16,9 +16,9 @@ app.secret_key = 'user1'
 
 api = Api(app)
 
-@app.before_first_request
-def create_table():
-    db.create_all()    
+#@app.before_first_request
+#def create_table():
+    #db.create_all()    
 
 jwt = JWT(app,authenticate,identity)
 
@@ -32,6 +32,7 @@ api.add_resource(UserResource, '/register')
 
 
 if __name__ == '__main__':
+    from db import db
     db.init_app(app)
     app.run(port=5000,debug=True)
 
